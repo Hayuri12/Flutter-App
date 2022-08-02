@@ -5,9 +5,7 @@ import 'package:ecommer_shop/core/my_flutter_app.dart';
 import 'package:ecommer_shop/models/chairs_model.dart';
 import 'package:ecommer_shop/widgets/appclipper.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:size_config/size_config.dart';
 
 class DetailPage extends StatefulWidget {
   final ChairModels chairModels;
@@ -24,14 +22,14 @@ class _DetailPageState extends State<DetailPage> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        title: Text(
+        title: const Text(
           "CATEGORIES",
           style: TextStyle(
             color: Colors.black,
           ),
         ),
         leading: IconButton(
-          icon: Icon(
+          icon: const Icon(
             MyFlutterApp.left_open,
             color: Colors.black,
           ),
@@ -41,7 +39,7 @@ class _DetailPageState extends State<DetailPage> {
         ),
         actions: <Widget>[
           IconButton(
-            icon: Icon(
+            icon: const Icon(
               MyFlutterApp.basket,
               color: Colors.black,
             ),

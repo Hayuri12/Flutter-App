@@ -1,4 +1,5 @@
 import 'package:ecommer_shop/core/const.dart';
+import 'package:ecommer_shop/registration_page.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatefulWidget {
@@ -14,7 +15,7 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController emailController =TextEditingController ();
   final TextEditingController passwordController =TextEditingController ();
   
-  
+
   @override
   Widget build(BuildContext context) {
     // email field
@@ -28,8 +29,8 @@ class _LoginPageState extends State<LoginPage> {
       textInputAction: TextInputAction.next,
       decoration: InputDecoration(
         prefixIcon : Icon(Icons.mail),
-        contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
-        hintText: "Email",
+          contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
+          hintText: "Email",
         border: OutlineInputBorder(
           borderRadius:BorderRadius.circular(10)
           )
@@ -49,15 +50,15 @@ class _LoginPageState extends State<LoginPage> {
       textInputAction: TextInputAction.done,
       decoration: InputDecoration(
         prefixIcon : Icon(Icons.vpn_key),
-        contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
-        hintText: "Password",
+          contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
+          hintText: "Password",
         border: OutlineInputBorder(
           borderRadius:BorderRadius.circular(10)
           )
       ),
 
     );
-    
+
     
     final loginButton = Material(
       elevation: 5,
@@ -74,58 +75,57 @@ class _LoginPageState extends State<LoginPage> {
           style: TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.bold,
-            ),
           ),
+        ),
       
       ),
 
 
-   );
-    
+    );
+
     return Scaffold(
       backgroundColor: AppColors.two,
       body: Center(
-        child: SingleChildScrollView(
-          child: Container(
-            color: Colors.white,
-            child: Padding(
-              padding: const EdgeInsets.all(36.0),
-              child: Form(
+          child: SingleChildScrollView(
+        child: Container(
+          color: Colors.white,
+          child: Padding(
+            padding: const EdgeInsets.all(36.0),
+            child: Form(
                 key: _formKey,
-                child:Column(
+                child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
                     // SizedBox(height: 200, child : Image.asset("assets/logo.png", fit: BoxFit.contain,)
                     SizedBox(height: 10),
-                    emaiField,SizedBox(height: 10),SizedBox(height: 10), passField,SizedBox(height: 20),loginButton,SizedBox(height: 10),
+                    emaiField,
+                    SizedBox(height: 10),
+                    SizedBox(height: 10), passField, SizedBox(height: 20),
+                    loginButton, SizedBox(height: 10),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text("Don't you have an account?"),
                         GestureDetector(
-                          onTap: (){},
-                          child: Text("Sign up"),
+                          onTap: (){
+                            Navigator.push(context, MaterialPageRoute(builder:((context) => RegistrationSc())));
+                          },
+                          child: Text(" Sign up", 
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 15,
+                          ), 
+                          ),
                         )
                       ],
                     )
                   ],
                   ) 
-                ),
-            ),
           ),
-          
-          
-          ) 
-        
-        
-        
-        
-        
-        
-        
-        
         ),
-    ); 
-  }
+      )),
+    )
+    );
+  } 
 }
