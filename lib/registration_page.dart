@@ -1,6 +1,6 @@
 import 'package:ecommer_shop/core/my_flutter_app.dart';
 import 'package:flutter/material.dart';
-
+import 'package:form_field_validator/form_field_validator.dart';
 import 'core/const.dart';
 
 class RegistrationSc extends StatefulWidget {
@@ -17,8 +17,7 @@ class _RegistrationScState extends State<RegistrationSc> {
   final TextEditingController SecondnameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  final TextEditingController ConfirmpasswordController =
-      TextEditingController();
+  final TextEditingController ConfirmpasswordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +26,7 @@ class _RegistrationScState extends State<RegistrationSc> {
       controller: FirstNameController,
       keyboardType: TextInputType.name,
       onSaved: (value) {
-        emailController.text = value!;
+        FirstNameController.text = value!;
       },
       textInputAction: TextInputAction.next,
       decoration: InputDecoration(
@@ -35,6 +34,7 @@ class _RegistrationScState extends State<RegistrationSc> {
           contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
           hintText: "First Name",
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(10))),
+          validator: RequiredValidator(errorText: "This field is required"),
     );
 
     final secondNameField = TextFormField(
@@ -42,7 +42,7 @@ class _RegistrationScState extends State<RegistrationSc> {
       controller: SecondnameController,
       keyboardType: TextInputType.name,
       onSaved: (value) {
-        emailController.text = value!;
+        SecondnameController.text = value!;
       },
       textInputAction: TextInputAction.next,
       decoration: InputDecoration(
@@ -50,6 +50,7 @@ class _RegistrationScState extends State<RegistrationSc> {
           contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
           hintText: "Second Name",
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(10))),
+          validator: RequiredValidator(errorText: "This field is required"),
     );
 
     final mailField = TextFormField(
@@ -59,6 +60,12 @@ class _RegistrationScState extends State<RegistrationSc> {
       onSaved: (value) {
         emailController.text = value!;
       },
+      validator: MultiValidator([
+        RequiredValidator(errorText: "Required"),
+        EmailValidator(errorText: "This Email is not Valid "),
+
+
+      ]),
       textInputAction: TextInputAction.next,
       decoration: InputDecoration(
           prefixIcon: Icon(Icons.mail),
@@ -66,35 +73,47 @@ class _RegistrationScState extends State<RegistrationSc> {
           hintText: "Email",
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(10))),
     );
-
     final passField = TextFormField(
       autofocus: false,
       controller: passwordController,
       obscureText: true,
       onSaved: (value) {
-        emailController.text = value!;
+        passwordController.text = value!;
       },
-      textInputAction: TextInputAction.done,
+      textInputAction: TextInputAction.next,
       decoration: InputDecoration(
           prefixIcon: Icon(Icons.vpn_key),
           contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
           hintText: "Password",
-          border: OutlineInputBorder(borderRadius: BorderRadius.circular(10))),
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(10))
+          
+          ),
+      
+      validator: MultiValidator([
+        RequiredValidator(errorText: 'password is required'),  
+        MinLengthValidator(8, errorText: 'password must be at least 8 digits long'),  
+        PatternValidator(r'(?=.*?[#?!@$%^&*-])', errorText: 'passwords must have at least one special character')
+      ]),
     );
+    
 
     final ConfirmpassField = TextFormField(
       autofocus: false,
       controller: ConfirmpasswordController,
       obscureText: true,
+     
+      
       onSaved: (value) {
-        emailController.text = value!;
+        ConfirmpasswordController.text = value!;
       },
       textInputAction: TextInputAction.done,
       decoration: InputDecoration(
           prefixIcon: Icon(Icons.vpn_key),
           contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
-          hintText: "Confrirm Password",
+          hintText: "Confirm Password",
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(10))),
+
+          
     );
 
     final SignUpButton = Material(
@@ -105,7 +124,9 @@ class _RegistrationScState extends State<RegistrationSc> {
         padding: EdgeInsets.fromLTRB(20, 15, 20, 15),
         minWidth: MediaQuery.of(context).size.width,
 
-        onPressed: (){},
+        onPressed: (){
+          final isValidForm = _formKey.currentState!.validate();
+        },
         child: const Text(
           "SignUp",
           textAlign: TextAlign.center,
@@ -124,7 +145,7 @@ class _RegistrationScState extends State<RegistrationSc> {
         backgroundColor: AppColors.two,
         elevation: 0,
         leading: IconButton( 
-          icon: Icon(MyFlutterApp.left_open), 
+          icon: const Icon(MyFlutterApp.left_open), 
           onPressed: () { 
             Navigator.pop(context);
            },
@@ -144,10 +165,12 @@ class _RegistrationScState extends State<RegistrationSc> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
                       // SizedBox(height: 200, child : Image.asset("assets/logo.png", fit: BoxFit.contain,)
-                      SizedBox(height: 10),
+                      
                       firstNameField,
                       SizedBox(height: 10),
                       secondNameField,
+                      SizedBox(height: 10),
+                      mailField,
                       SizedBox(height: 10), 
                       passField, 
                       SizedBox(height: 10),
