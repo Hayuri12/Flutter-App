@@ -1,6 +1,7 @@
 import 'package:ecommer_shop/core/const.dart';
 import 'package:ecommer_shop/registration_page.dart';
 import 'package:flutter/material.dart';
+import 'package:form_field_validator/form_field_validator.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -10,56 +11,57 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  final _formKey= GlobalKey<FormState>();
+  final _formKey = GlobalKey<FormState>();
 
-  final TextEditingController emailController =TextEditingController ();
-  final TextEditingController passwordController =TextEditingController ();
-  
+  // void validate(){
+  //   if(_formKey.currentState!.validate()){
+  //     print("Validated");
+  //   }
+  //   else
+  //   {
+  //     print("Not Validated");
+  //   }
+  // }
+
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     // email field
-    final emaiField= TextFormField(
-      autofocus: false ,
+    final emaiField = TextFormField(
+      autofocus: false,
       controller: emailController,
       keyboardType: TextInputType.emailAddress,
-      onSaved: (value){
-        emailController.text= value!;
+      onSaved: (value) {
+        emailController.text = value!;
       },
       textInputAction: TextInputAction.next,
       decoration: InputDecoration(
-        prefixIcon : Icon(Icons.mail),
-          contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
+          prefixIcon: const Icon(Icons.mail),
+          contentPadding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
           hintText: "Email",
-        border: OutlineInputBorder(
-          borderRadius:BorderRadius.circular(10)
-          )
-      ),
-
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(10))),
+      validator: RequiredValidator(errorText: "Requied Field"),
     );
 
-// Passwprd field
-    final passField= TextFormField(
-      autofocus: false ,
+// Password field
+    final passField = TextFormField(
+      autofocus: false,
       controller: passwordController,
       obscureText: true,
-      
-      onSaved: (value){
-        emailController.text= value!;
+      onSaved: (value) {
+        passwordController.text = value!;
       },
       textInputAction: TextInputAction.done,
       decoration: InputDecoration(
-        prefixIcon : Icon(Icons.vpn_key),
+          prefixIcon: Icon(Icons.vpn_key),
           contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
           hintText: "Password",
-        border: OutlineInputBorder(
-          borderRadius:BorderRadius.circular(10)
-          )
-      ),
-
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(10))),
+          validator: RequiredValidator(errorText: "Requied Field"),
     );
 
-    
     final loginButton = Material(
       elevation: 5,
       borderRadius: BorderRadius.circular(30),
@@ -67,10 +69,11 @@ class _LoginPageState extends State<LoginPage> {
       child: MaterialButton(
         padding: EdgeInsets.fromLTRB(20, 15, 20, 15),
         minWidth: MediaQuery.of(context).size.width,
-
-        onPressed: (){},
+        onPressed: () {
+          final isValidForm = _formKey.currentState!.validate();
+        },
         child: const Text(
-          "Login",
+          "LOGIN",
           textAlign: TextAlign.center,
           style: TextStyle(
             color: Colors.white,
@@ -79,53 +82,54 @@ class _LoginPageState extends State<LoginPage> {
         ),
       
       ),
-
-
     );
 
     return Scaffold(
-      backgroundColor: AppColors.two,
-      body: Center(
+        backgroundColor: AppColors.two,
+        body: Center(
           child: SingleChildScrollView(
-        child: Container(
-          color: Colors.white,
-          child: Padding(
-            padding: const EdgeInsets.all(36.0),
-            child: Form(
-                key: _formKey,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    // SizedBox(height: 200, child : Image.asset("assets/logo.png", fit: BoxFit.contain,)
-                    SizedBox(height: 10),
-                    emaiField,
-                    SizedBox(height: 10),
-                    SizedBox(height: 10), passField, SizedBox(height: 20),
-                    loginButton, SizedBox(height: 10),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text("Don't you have an account?"),
-                        GestureDetector(
-                          onTap: (){
-                            Navigator.push(context, MaterialPageRoute(builder:((context) => RegistrationSc())));
-                          },
-                          child: Text(" Sign up", 
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 15,
-                          ), 
-                          ),
-                        )
-                      ],
-                    )
-                  ],
-                  ) 
-          ),
-        ),
-      )),
-    )
-    );
-  } 
+              child: Container(
+            color: Colors.white,
+            child: Padding(
+              padding: const EdgeInsets.all(36.0),
+              child: Form(
+                  key: _formKey,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      // SizedBox(height: 200, child : Image.asset("assets/logo.png", fit: BoxFit.contain,)
+                      SizedBox(height: 10),
+                      emaiField,
+                      SizedBox(height: 10),
+                      SizedBox(height: 10), passField, SizedBox(height: 20),
+                      loginButton, SizedBox(height: 10),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text("Don't you have an account?"),
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: ((context) =>
+                                          RegistrationSc())));
+                            },
+                            child: const Text(
+                              " Sign up",
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 15,
+                              ),
+                            ),
+                          )
+                        ],
+                      )
+                    ],
+                  )),
+            ),
+          )),
+        ));
+  }
 }
